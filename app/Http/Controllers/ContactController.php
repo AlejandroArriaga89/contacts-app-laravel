@@ -52,6 +52,7 @@ class ContactController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show(Contact $contact) {
+        $this->authorize('view', $contact);
         return view('contacts.show', compact('contact'));
     }
 
@@ -62,7 +63,7 @@ class ContactController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit(Contact $contact) {
-
+        $this->authorize('update', $contact);
         return view('contacts.edit', compact('contact'));
     }
 
@@ -93,6 +94,7 @@ class ContactController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function destroy(Contact $contact) {
+        $this->authorize('delete', $contact);
         $contact->delete();
         return redirect()->route('home');
     }
