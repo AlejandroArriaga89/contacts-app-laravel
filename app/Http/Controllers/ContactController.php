@@ -92,6 +92,7 @@ class ContactController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function destroy(Contact $contact) {
-        //
+        $contact->delete();
+        return redirect()->route('home');
     }
 }
