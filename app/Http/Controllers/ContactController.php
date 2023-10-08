@@ -37,9 +37,11 @@ class ContactController extends Controller {
      */
     public function store(StoreContactRequest $request) {
 
-        auth()->user()->contacts()->create($request->validated());
+        $contact = auth()->user()->contacts()->create($request->validated());
 
-        return redirect()->route('home');
+        return redirect()->route('home')->with('alert', [
+            'message' => "Contact $contact->name successfully saved", 'type' => 'success'
+        ]);
     }
 
     /**
@@ -75,7 +77,9 @@ class ContactController extends Controller {
 
         $contact->update($request->validated());
 
-        return redirect()->route('home');
+        return redirect()->route('home')->with('alert', [
+            'message' => "Contact $contact->name successfully updated", 'type' => 'success'
+        ]);
     }
 
     /**
@@ -87,6 +91,8 @@ class ContactController extends Controller {
     public function destroy(Contact $contact) {
         $this->authorize('delete', $contact);
         $contact->delete();
-        return redirect()->route('home');
+        return redirect()->route('home')->with('alert', [
+            'message' => "Contact $contact->name successfully deleted", 'type' => 'success'
+        ]);
     }
 }
