@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contact;
-use GuzzleHttp\Promise\Create;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
+
 
 class ContactController extends Controller {
     /**
@@ -14,7 +13,7 @@ class ContactController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        //
+        return view('contacts.index', ['contacts' => Contact::all()]);
     }
 
     /**
