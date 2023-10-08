@@ -13,7 +13,9 @@ class ContactController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        return view('contacts.index', ['contacts' => Contact::all()]);
+
+        $contacts = auth()->user()->contacts;
+        return view('contacts.index', compact('contacts'));
     }
 
     /**
@@ -38,8 +40,8 @@ class ContactController extends Controller {
             'phone_number' => 'required',
             'age' => 'required|numeric|min:1|max:255',
         ]);
+        auth()->user()->contacts()->create($data);
 
-        Contact::create($data);
         return redirect()->route('home');
     }
 
