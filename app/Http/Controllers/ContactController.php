@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contact;
+use GuzzleHttp\Promise\Create;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 
@@ -22,7 +23,7 @@ class ContactController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        return view('contact');
+        return view('contacts.create');
     }
 
     /**
@@ -32,13 +33,15 @@ class ContactController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-        $request->validate([
+        $data = $request->validate([
             'name' => 'required',
             'email' => 'required|email',
-            'phone_number' => 'required|digits:9',
+            'phone_number' => 'required',
             'age' => 'required|numeric|min:1|max:255',
         ]);
-        return response("Contact created");
+
+        Contact::create($data);
+        return redirect()->route('home');
     }
 
     /**
@@ -58,7 +61,8 @@ class ContactController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit(Contact $contact) {
-        //
+
+        return view('contacts.edit', compact('contact'));
     }
 
     /**
@@ -69,7 +73,16 @@ class ContactController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Contact $contact) {
-        //
+        $data = $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'phone_number' => 'required',
+            'age' => 'required|numeric|min:1|max:255',
+        ]);
+
+        $contact->update($data);
+
+        return redirect()->route('home');
     }
 
     /**
