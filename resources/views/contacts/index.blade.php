@@ -6,10 +6,12 @@
       <div class="d-flex justify-content-between bg-dark mb-3 rounded px-4 py-2 ">
         <div>
           <a href="{{ route('contacts.show', $contact->id) }}">
-            <img src="/img/logo.png" style="width: 2em">
+            <img class="profile-picture"
+              src="{{ Storage::url($contact->profile_picture) }}"
+              alt="Foto de perfil">
           </a>
         </div>
-        <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center ">
           <p class="me-2 mb-o">{{ $contact->name }}</p>
           <p class="me-2 mb-o d-none d-md-block">
             <a href="mailto:{{ $contact->email }}">

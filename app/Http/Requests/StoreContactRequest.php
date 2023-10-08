@@ -25,6 +25,7 @@ class StoreContactRequest extends FormRequest {
             'email' => 'required|email',
             'phone_number' => 'required',
             'age' => 'required|numeric|min:1|max:255',
+            'profile_picture' => 'image|nullable',
         ];
     }
 }

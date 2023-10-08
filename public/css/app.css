@@ -12066,3 +12066,9 @@ textarea.form-control-lg {
     background-position: center center;
     background-size: cover;
 }
+
+.profile-picture {
+    border-radius: 50%;
+    width: 5rem;
+    height: 5rem;
+}

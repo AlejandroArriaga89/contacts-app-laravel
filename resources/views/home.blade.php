@@ -8,6 +8,13 @@
         <div class="col-md-4 mb-3">
           <div class="card text-center">
             <div class="card-body">
+              <div class="d-flex justify-content-center mb-2">
+                <a href="{{ route('contacts.show', $contact->id) }}">
+                  <img class="profile-picture"
+                    src="{{ Storage::url($contact->profile_picture) }}"
+                    alt="Foto de perfil">
+                </a>
+              </div>
               <a href="{{ route('contacts.show', $contact->id) }}"
                 class="card-title text-decoration-none h3">{{ $contact->name }}</a>
               <p class="m-2">{{ $contact->phone_number }}</p>

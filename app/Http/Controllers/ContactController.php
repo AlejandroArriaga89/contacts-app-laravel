@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreContactRequest;
 use App\Models\Contact;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Storage;
 
 class ContactController extends Controller {
 
@@ -36,8 +36,14 @@ class ContactController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(StoreContactRequest $request) {
+        $data = $request->validated();
 
-        $contact = auth()->user()->contacts()->create($request->validated());
+        if ($request->hasFile('profile_picture')) {
+            $path = $request->file('profile_picture')->store('profiles', 'public');
+            $data['profile_picture'] = $path;
+        }
+
+        $contact = auth()->user()->contacts()->create($data);
 
         return redirect()->route('home')->with('alert', [
             'message' => "Contact $contact->name successfully saved", 'type' => 'success'
@@ -74,8 +80,17 @@ class ContactController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(StoreContactRequest $request, Contact $contact) {
+        $this->authorize('update', $contact);
 
-        $contact->update($request->validated());
+        $data = $request->validated();
+
+
+        if ($request->hasFile('profile_picture')) {
+            $path = $request->file('profile_picture')->store('profiles', 'public');
+            $data['profile_picture'] = $path;
+        }
+
+        $contact->update($data);
 
         return redirect()->route('home')->with('alert', [
             'message' => "Contact $contact->name successfully updated", 'type' => 'success'
@@ -90,6 +105,9 @@ class ContactController extends Controller {
      */
     public function destroy(Contact $contact) {
         $this->authorize('delete', $contact);
+        if ($contact->profile_picture != 'profiles/default.png') {
+            Storage::disk('public')->delete($contact->profile_picture);
+        }
         $contact->delete();
         return back()->with('alert', [
             'message' => "Contact $contact->name successfully deleted", 'type' => 'success'

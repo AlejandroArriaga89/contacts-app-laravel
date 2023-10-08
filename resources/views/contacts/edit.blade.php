@@ -8,8 +8,15 @@
           <div class="card-header">Edit Contact</div>
 
           <div class="card-body">
+            <div class="d-flex justify-content-center mb-4">
+              <img class="profile-picture"
+                src="{{ Storage::url($contact->profile_picture) }}"
+                alt="Foto de perfil">
+            </div>
+
             <form method="POST"
-              action="{{ route('contacts.update', $contact->id) }}">
+              action="{{ route('contacts.update', $contact->id) }}"
+              enctype="multipart/form-data">
               @csrf
               @method('PUT')
               <div class="row mb-3">
@@ -81,6 +88,25 @@
                     name="age" autocomplete="age">
 
                   @error('age')
+                    <span class="invalid-feedback" role="alert">
+                      <strong>{{ $message }}</strong>
+                    </span>
+                  @enderror
+
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <label for="profile_picture"
+                  class="col-md-4 col-form-label text-md-end">Profile
+                  picture</label>
+
+                <div class="col-md-6">
+                  <input id="profile_picture" type="file"
+                    class="form-control @error('profile_picture') is-invalid @enderror"
+                    name="profile_picture">
+
+                  @error('profile_picture')
                     <span class="invalid-feedback" role="alert">
                       <strong>{{ $message }}</strong>
                     </span>
