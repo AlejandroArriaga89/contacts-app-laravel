@@ -29,5 +29,5 @@ Route::get('/free-trial-end', [StripeController::class, 'freeTrialEnd'])->name('
 
 Route::middleware(['auth', 'subscription'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
-    Route::middleware(['auth', 'subscription'])->resource('contacts', ContactController::class);
+    Route::resource('contacts', ContactController::class);
 });
