@@ -26,9 +26,9 @@ class ContactPolicy {
      * @param  \App\Models\Contact  $contact
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Contact $contact) {
-
-        return $user->id === $contact->user_id;
+    public function view(User $user, Contact $contact,) {
+        $contactIsSharedWithUser = $user->sharedContacts()->firstWhere('contact_id', $contact->id);
+        return $user->id === $contact->user_id || $contactIsSharedWithUser;
     }
 
     /**
